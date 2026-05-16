@@ -1,0 +1,47 @@
+project:
+  name: lab2-gpt-like
+  experiment_name: gpt-small-packed-wikitext
+paths:
+  tokenizer_path: tokenizers/commoncrawl_bpe.json
+  text_file: data/processed/wikitext_lab2.jsonl
+  checkpoint_dir: checkpoints
+  log_dir: logs
+data:
+  block_size: 512
+  batch_size: 16
+  val_ratio: 0.1
+  num_workers: 0
+  max_texts: 20000
+  append_eos: true
+model:
+  vocab_size: 8000
+  max_position_embeddings: 512
+  hidden_size: 384
+  num_hidden_layers: 6
+  num_attention_heads: 6
+  intermediate_size: 1536
+  dropout: 0.05
+  layer_norm_eps: 1.0e-05
+  tie_word_embeddings: true
+training:
+  seed: 42
+  max_epochs: 100
+  learning_rate: 0.0003
+  weight_decay: 0.01
+  betas:
+  - 0.9
+  - 0.95
+  warmup_steps: 1000
+  min_lr_ratio: 0.1
+  gradient_clip_val: 1.0
+  accumulate_grad_batches: 1
+  precision: '32'
+  log_every_n_steps: 20
+  save_top_k: 1
+  monitor: val/perplexity
+  mode: min
+generation:
+  prompt: The history of natural language processing
+  max_new_tokens: 80
+  temperature: 0.9
+  top_k: 50
